@@ -18,6 +18,7 @@ function startGame(){
     let buttonAttackMagic = document.getElementById('button-magic')
     buttonAttackMagic.addEventListener('click', playerAttackMagic)
 
+
 }
 function selectWarriorPlayer(){
 
@@ -80,12 +81,18 @@ function ramdomEnemyAttack(){
         enemyAttack = "Magic"
     }
     combat()
-    addMessage()
+    
 }
 function addMessage(){
     let sectionMessages = document.getElementById('messages')
     let textMessage = document.createElement('p')
     textMessage.innerHTML = "Your warrior attacked with " + playerAttack + ", your enemy attacked with " + enemyAttack + " : " + resultCombat
+    sectionMessages.appendChild(textMessage)
+}
+function addMessageEndGame(finalMessage){
+    let sectionMessages = document.getElementById('messages')
+    let textMessage = document.createElement('p')
+    textMessage.innerHTML = finalMessage
     sectionMessages.appendChild(textMessage)
 }
 function combat(){
@@ -111,6 +118,15 @@ function combat(){
         resultCombat = "You lose 👾"
         playerLives -= 1
         spanPlayerLives.innerHTML = playerLives
+    }
+    addMessage()
+    livesChecker()
+}
+function livesChecker() {
+    if (enemyLives == 0){
+        addMessageEndGame("Flawless Victory!")
+    } else if (playerLives == 0){
+        addMessageEndGame("You lose, Pathetic Fool!")
     }
 }
 
