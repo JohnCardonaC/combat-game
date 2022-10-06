@@ -80,6 +80,14 @@ function ramdomEnemyAttack(){
     } else {
         enemyAttack = "Magic"
     }
+    addMessage()
+}
+
+function addMessage(){
+    let sectionMessages = document.getElementById('messages')
+    let textMessage = document.createElement('p')
+    textMessage.innerHTML = "Your warrior attacked with " + playerAttack + ", your enemy attacked with " + enemyAttack + "- You Wins 🎉"
+    sectionMessages.appendChild(textMessage)
 }
 
 window.addEventListener('load', startGame)
