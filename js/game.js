@@ -18,6 +18,8 @@ function startGame(){
     let buttonAttackMagic = document.getElementById('button-magic')
     buttonAttackMagic.addEventListener('click', playerAttackMagic)
 
+    let buttonRestart = document.getElementById('button-restart')
+    buttonRestart.addEventListener('click', restartGame)
 
 }
 function selectWarriorPlayer(){
@@ -94,6 +96,20 @@ function addMessageEndGame(finalMessage){
     let textMessage = document.createElement('p')
     textMessage.innerHTML = finalMessage
     sectionMessages.appendChild(textMessage)
+
+    let buttonAttackFire = document.getElementById('button-fire')
+    buttonAttackFire.disabled = true
+
+    let buttonAttackWater = document.getElementById('button-water')
+    buttonAttackWater.disabled = true
+
+    let buttonAttackMagic = document.getElementById('button-magic')
+    buttonAttackMagic.disabled = true
+
+    let buttonRestart = document.getElementById('button-restart')
+    buttonRestart.style = "Display: block"
+
+
 }
 function combat(){
 
@@ -128,6 +144,9 @@ function livesChecker() {
     } else if (playerLives == 0){
         addMessageEndGame("You lose, Pathetic Fool!")
     }
+}
+function restartGame(){
+    location.reload()
 }
 
 window.addEventListener('load', startGame)
