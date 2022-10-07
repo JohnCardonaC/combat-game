@@ -6,6 +6,15 @@ let enemyLives = 3
 
 
 function startGame(){
+    let sectionAttck = document.getElementById('select-attack')
+    sectionAttck.style = "display: none"
+
+    let sectionLives = document.getElementById('lives')
+    sectionLives.style = "display: none"
+
+    let sectionRestart = document.getElementById('restart')
+    sectionRestart.style = "display: none"
+
     let buttonWarriorPlayer = document.getElementById('button-warrior')
     buttonWarriorPlayer.addEventListener('click', selectWarriorPlayer)
 
@@ -40,6 +49,16 @@ function selectWarriorPlayer(){
         alert("Select one warrior")
     }
     selectWarriorEnemy()
+
+    let sectionWarrior = document.getElementById('slect-warrior')
+    sectionWarrior.style = "display: none"
+
+    let sectionAttck = document.getElementById('select-attack')
+    sectionAttck.style = "display: block"
+
+    let sectionLives = document.getElementById('lives')
+    sectionLives.style = "display: block"
+
 
 }
 function random(min,max){
@@ -106,8 +125,8 @@ function addMessageEndGame(finalMessage){
     let buttonAttackMagic = document.getElementById('button-magic')
     buttonAttackMagic.disabled = true
 
-    let buttonRestart = document.getElementById('button-restart')
-    buttonRestart.style = "Display: block"
+    let sectionRestart = document.getElementById('restart')
+    sectionRestart.style = "display: block"
 
 
 }
