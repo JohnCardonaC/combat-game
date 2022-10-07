@@ -19,6 +19,7 @@ const sectionMessages = document.getElementById('message-result')
 const spanPlayerLives = document.getElementById('player-lives')
 const spanEnemyLives = document.getElementById('enemy-lives')
 
+let warrios = []
 let playerAttack
 let enemyAttack
 let resultCombat 
@@ -34,12 +35,42 @@ class Warriors {
         this.imagen = imagen
         this.power = power
         this.lives = lives
+        this.attacks = []
     }
 }
 
-let shillingford = new Warriors('Shillingford', 'https://i.ibb.co/NrW5VXd/shillingford.png', 'Fire', 3)
-let clayton = new Warriors('Clayton', 'https://i.ibb.co/GsZJs22/clayton.png', 'Water', 3)
-let frolova = new Warriors('Frolova', 'https://i.ibb.co/LC47gCC/Ffolova.png', 'Magic', 3)
+let shillingford = new Warriors('Shillingford', 'https://i.ibb.co/NrW5VXd/shillingford.png', 'Fire', 5)
+let clayton = new Warriors('Clayton', 'https://i.ibb.co/GsZJs22/clayton.png', 'Water', 5)
+let frolova = new Warriors('Frolova', 'https://i.ibb.co/LC47gCC/Ffolova.png', 'Magic', 5)
+
+warrios.push(shillingford, clayton, frolova)
+
+shillingford.attacks.push(
+    {name: 'Fire 🔥', id: 'button-fire'},
+    {name: 'Fire 🔥', id: 'button-fire'},
+    {name: 'Fire 🔥', id: 'button-fire'},
+    {name: 'Water 💧', id: 'button-water'},
+    {name: 'Magic 🪄', id: 'button-magic'}
+)
+
+clayton.attacks.push(
+    {name: 'Water 💧', id: 'button-water'},
+    {name: 'Water 💧', id: 'button-water'},
+    {name: 'Water 💧', id: 'button-water'},
+    {name: 'Fire 🔥', id: 'button-fire'},
+    {name: 'Magic 🪄', id: 'button-magic'}
+)
+frolova.attacks.push(
+    {name: 'Fire 🔥', id: 'button-fire'},
+    {name: 'Water 💧', id: 'button-water'},
+    {name: 'Magic 🪄', id: 'button-magic'},
+    {name: 'Magic 🪄', id: 'button-magic'},
+    {name: 'Magic 🪄', id: 'button-magic'}
+)
+
+
+
+
 
 function startGame(){
     sectionAttck.style = "display: none"
