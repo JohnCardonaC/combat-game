@@ -6,9 +6,9 @@ const buttonAttackFire = document.getElementById('button-fire')
 const buttonAttackWater = document.getElementById('button-water')
 const buttonAttackMagic = document.getElementById('button-magic')
 const buttonRestart = document.getElementById('button-restart')
-const shillingford = document.getElementById('shillingford')
-const clayton = document.getElementById('clayton')
-const frolova = document.getElementById('frolova')
+const shillingfordInput = document.getElementById('shillingford')
+const claytonInput = document.getElementById('clayton')
+const frolovaInput = document.getElementById('frolova')
 const spanWarriorPlayerName = document.getElementById('warrior-player-name')
 const sectionWarrior = document.getElementById('slect-warrior')
 const spanWarriorEnemyName = document.getElementById('warrior-enemy-name')
@@ -28,6 +28,18 @@ let playerAttackResultEmoji
 let enemyAttackResultEmoji
 let counterAttacks = 0
 
+class Warriors {
+    constructor(name, imagen, power, lives) {
+        this.name = name
+        this.imagen = imagen
+        this.power = power
+        this.lives = lives
+    }
+}
+
+let shillingford = new Warriors('Shillingford', 'https://i.ibb.co/NrW5VXd/shillingford.png', 'Fire', 3)
+let clayton = new Warriors('Clayton', 'https://i.ibb.co/GsZJs22/clayton.png', 'Water', 3)
+let frolova = new Warriors('Frolova', 'https://i.ibb.co/LC47gCC/Ffolova.png', 'Magic', 3)
 
 function startGame(){
     sectionAttck.style = "display: none"
@@ -40,11 +52,11 @@ function startGame(){
     buttonRestart.addEventListener('click', restartGame)
 }
 function selectWarriorPlayer(){
-    if (shillingford.checked){
+    if (shillingfordInput.checked){
         spanWarriorPlayerName.innerHTML = "Shillingford"
-    } else if (clayton.checked){
+    } else if (claytonInput.checked){
         spanWarriorPlayerName.innerHTML = "Clayton"
-    } else if (frolova.checked){
+    } else if (frolovaInput.checked){
         spanWarriorPlayerName.innerHTML = "Frolova"
     } else {
         alert("Select one warrior")
@@ -159,5 +171,4 @@ function livesChecker() {
 function restartGame(){
     location.reload()
 }
-
 window.addEventListener('load', startGame)
