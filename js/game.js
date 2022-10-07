@@ -3,13 +3,16 @@ let enemyAttack
 let resultCombat 
 let playerLives = 3
 let enemyLives = 3
+let playerAttackResultEmoji
+let enemyAttackResultEmoji
+let counterAttacks = 0
 
 
 function startGame(){
     let sectionAttck = document.getElementById('select-attack')
     sectionAttck.style = "display: none"
 
-    let sectionLives = document.getElementById('lives')
+    let sectionLives = document.getElementById('attacks-lives-secction')
     sectionLives.style = "display: none"
 
     let sectionRestart = document.getElementById('restart')
@@ -54,10 +57,10 @@ function selectWarriorPlayer(){
     sectionWarrior.style = "display: none"
 
     let sectionAttck = document.getElementById('select-attack')
-    sectionAttck.style = "display: block"
+    sectionAttck.style = "display: flex"
 
-    let sectionLives = document.getElementById('lives')
-    sectionLives.style = "display: block"
+    let sectionLives = document.getElementById('attacks-lives-secction')
+    sectionLives.style = "display: grid"
 
 
 }
@@ -105,17 +108,32 @@ function ramdomEnemyAttack(){
     
 }
 function addMessage(){
-    let sectionMessages = document.getElementById('messages')
-    let textMessage = document.createElement('p')
-    textMessage.innerHTML = "Your warrior attacked with " + playerAttack + ", your enemy attacked with " + enemyAttack + " : " + resultCombat
-    sectionMessages.appendChild(textMessage)
+    let sectionMessagesResult = document.getElementById('message-result')
+    let sectionMessagesPlayerAttack = document.getElementById('message-player-attack')
+    let sectionMessagesEnemyAttack = document.getElementById('message-enemy-attack')
+
+  
+    let textMessagePlayerAttack = document.createElement('p')
+    let textMessageEnemyAttack = document.createElement('p')
+
+    sectionMessagesResult.innerHTML = resultCombat
+    textMessagePlayerAttack.innerHTML = "<span class=counter-attacks>" + counterAttacks + ".</span>" + playerAttack + " " + playerAttackResultEmoji
+    textMessageEnemyAttack.innerHTML = "<span class=counter-attacks>" + counterAttacks + ".</span>" +  enemyAttack + " " + enemyAttackResultEmoji
+
+   
+    sectionMessagesPlayerAttack.appendChild(textMessagePlayerAttack)
+    sectionMessagesEnemyAttack.appendChild(textMessageEnemyAttack)
+
+
+    //let textMessage = document.createElement('p')
+    //textMessage.innerHTML = "Your warrior attacked with " + playerAttack + ", your enemy attacked with " + enemyAttack + " : " + resultCombat
+    //sectionMessages.appendChild(textMessage)
 }
 function addMessageEndGame(finalMessage){
-    let sectionMessages = document.getElementById('messages')
-    let textMessage = document.createElement('p')
-    textMessage.innerHTML = finalMessage
-    sectionMessages.appendChild(textMessage)
+    let sectionMessages = document.getElementById('message-result')
 
+    sectionMessages.innerHTML = finalMessage
+   
     let buttonAttackFire = document.getElementById('button-fire')
     buttonAttackFire.disabled = true
 
@@ -137,23 +155,35 @@ function combat(){
 
     if (playerAttack == enemyAttack) {
         resultCombat = "Tied game 🤝"
+        playerAttackResultEmoji = "🤝"
+        enemyAttackResultEmoji = "🤝"
+
     } else if (playerAttack == "Fire" && enemyAttack == "Magic") {
         resultCombat = "You Win 🎉"
+        playerAttackResultEmoji = "✅"
+        enemyAttackResultEmoji = "☠️"
         enemyLives -= 1
         spanEnemyLives.innerHTML = enemyLives
     } else if (playerAttack == "Water" && enemyAttack == "Fire") {
         resultCombat = "You Win 🎉"
+        playerAttackResultEmoji = "✅"
+        enemyAttackResultEmoji = "☠️"
         enemyLives -= 1
         spanEnemyLives.innerHTML = enemyLives
     } else if (playerAttack == "Magic" && enemyAttack == "Water") {
         resultCombat = "You Win 🎉"
+        playerAttackResultEmoji = "✅"
+        enemyAttackResultEmoji = "☠️"
         enemyLives -= 1
         spanEnemyLives.innerHTML = enemyLives
     } else {
         resultCombat = "You lose 👾"
+        playerAttackResultEmoji = "☠️"
+        enemyAttackResultEmoji = "✅"
         playerLives -= 1
         spanPlayerLives.innerHTML = playerLives
     }
+    counterAttacks++
     addMessage()
     livesChecker()
 }
