@@ -1,81 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Combat Game JS</title>
-    <link rel="stylesheet" href="./css/styles.css">
-    <script src="./js/game.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Combat Game JS</title>
+        <link rel="stylesheet" href="./css/styles.css">
+    </head>
+    <body>
+        <section id="slect-warrior">
+            <h1 class="title">Combat field </h1>
+            <h2 class="sub-title">Choose your warrior:</h2>
 
-<body>
-    <section id="slect-warrior">
-        <h1 class="title">Combat field </h1>
-        <h2 class="sub-title">Choose your warrior:</h2>
+            <div class="cards">
+                
+                <input type="radio" name="warrior" id="shillingford"/>
+                <label class="warrior-card" for="shillingford" >
+                    <p class="warrior-name-text">Shillingford</p>
+                    <img src="https://i.ibb.co/NrW5VXd/shillingford.png" alt="shillingford" border="0">
+                    <p class="power-text">Fire</p>
+                </label>
+                <input type="radio" name="warrior" id="clayton"/>
+                <label class="warrior-card" for="clayton">
+                    <p class="warrior-name-text">Clayton</p>
+                <img src="https://i.ibb.co/GsZJs22/clayton.png" alt="clayton" border="0">
+                <p class="power-text">Water</p>
+                </label>
+                <input type="radio" name="warrior" id="frolova"/>
+                <label class="warrior-card" for="frolova">
+                    <p class="warrior-name-text">Frolova</p>
+                    <img src="https://i.ibb.co/LC47gCC/Ffolova.png" alt="Ffolova" border="0">
+                    <p class="power-text">Magic</p>
+                </label>
+            </div>
 
-        <div class="cards">
-              
-            <input type="radio" name="warrior" id="shillingford"/>
-            <label class="warrior-card" for="shillingford" >
-                <p class="warrior-name-text">Shillingford</p>
-                <img src="https://i.ibb.co/NrW5VXd/shillingford.png" alt="shillingford" border="0">
-                <p class="power-text">Fire</p>
-            </label>
-            <input type="radio" name="warrior" id="clayton"/>
-            <label class="warrior-card" for="clayton">
-                <p class="warrior-name-text">Clayton</p>
-               <img src="https://i.ibb.co/GsZJs22/clayton.png" alt="clayton" border="0">
-               <p class="power-text">Water</p>
-            </label>
-            <input type="radio" name="warrior" id="frolova"/>
-            <label class="warrior-card" for="frolova">
-                <p class="warrior-name-text">Frolova</p>
-                <img src="https://i.ibb.co/LC47gCC/Ffolova.png" alt="Ffolova" border="0">
-                <p class="power-text">Magic</p>
-            </label>
-        </div>
-
-        <button id="button-warrior">Select your warrior</button>
-    </section>
+            <button id="button-warrior">Select your warrior</button>
+        </section>
 
 
-    <section style="display: none" id="select-attack">
-        <h1 class="title">Combat field </h1>
-        <h2 class="sub-title">Select your attack</h2>
-        <div class="buttons-attack">
-            <button class="button-attack" id="button-fire">Fire 🔥 </button>
-            <button class="button-attack" id="button-water">Water 💧</button>
-            <button class="button-attack" id="button-magic">Magic 🪄</button>
-        </div>
+        <section style="display: none" id="select-attack">
+            <h1 class="title">Combat field </h1>
+            <h2 class="sub-title">Select your attack</h2>
+            <div class="buttons-attack">
+                <button class="button-attack" id="button-fire">Fire 🔥 </button>
+                <button class="button-attack" id="button-water">Water 💧</button>
+                <button class="button-attack" id="button-magic">Magic 🪄</button>
+            </div>
+            
+            <div id="messages">
+                <p id="message-result">Good luck!</p>
+                <section id="restart">
+                    <button id="button-restart">Restart the game</button>
+                </section>
+            </div> 
+            
         
-        <div id="messages">
-            <p id="message-result">Good luck!</p>
-            <section id="restart">
-                <button id="button-restart">Restart the game</button>
-            </section>
-        </div> 
-           
-    
-        <div class="section-attacks" id="attacks-lives-secction">
-                <div>
-                    <p>Player: <span id="warrior-player-name"></span> </p>
-                    <p>Lives: <span id="player-lives">3</span> </p>
-                    <hr > 
-                    <p>Attacks</p>
-                    <hr >
-                    <div id="message-player-attack"></div>    
-                </div>
-                <div>
-                    <p>Enemy:  <span id="warrior-enemy-name"></span> </p>
-                    <p>Lives: <span id="enemy-lives">3</span></p>
-                    <hr > 
-                    <p>Attacks</p>
-                    <hr > 
-                    <div id="message-enemy-attack"></div>   
-                </div>
-        </div>     
-    </section>
-
-</body>
+            <div class="section-attacks" id="attacks-lives-secction">
+                    <div>
+                        <p>Player: <span id="warrior-player-name"></span> </p>
+                        <p>Lives: <span id="player-lives">3</span> </p>
+                        <hr > 
+                        <p>Attacks</p>
+                        <hr >
+                        <div id="message-player-attack"></div>    
+                    </div>
+                    <div>
+                        <p>Enemy:  <span id="warrior-enemy-name"></span> </p>
+                        <p>Lives: <span id="enemy-lives">3</span></p>
+                        <hr > 
+                        <p>Attacks</p>
+                        <hr > 
+                        <div id="message-enemy-attack"></div>   
+                    </div>
+            </div>     
+        </section>
+        <script src="./js/game.js"></script>
+    </body>
 </html>
