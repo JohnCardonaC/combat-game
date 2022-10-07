@@ -6,9 +6,6 @@ const buttonAttackFire = document.getElementById('button-fire')
 const buttonAttackWater = document.getElementById('button-water')
 const buttonAttackMagic = document.getElementById('button-magic')
 const buttonRestart = document.getElementById('button-restart')
-const shillingfordInput = document.getElementById('shillingford')
-const claytonInput = document.getElementById('clayton')
-const frolovaInput = document.getElementById('frolova')
 const spanWarriorPlayerName = document.getElementById('warrior-player-name')
 const sectionWarrior = document.getElementById('slect-warrior')
 const spanWarriorEnemyName = document.getElementById('warrior-enemy-name')
@@ -18,8 +15,13 @@ const sectionMessagesEnemyAttack = document.getElementById('message-enemy-attack
 const sectionMessages = document.getElementById('message-result')
 const spanPlayerLives = document.getElementById('player-lives')
 const spanEnemyLives = document.getElementById('enemy-lives')
+const cardsContainer = document.getElementById('cards-container')
 
-let warrios = []
+let warriors = []
+let warriorsHTMLConstruction 
+let shillingfordInput
+let claytonInput
+let frolovaInput
 let playerAttack
 let enemyAttack
 let resultCombat 
@@ -43,8 +45,6 @@ let shillingford = new Warriors('Shillingford', 'https://i.ibb.co/NrW5VXd/shilli
 let clayton = new Warriors('Clayton', 'https://i.ibb.co/GsZJs22/clayton.png', 'Water', 5)
 let frolova = new Warriors('Frolova', 'https://i.ibb.co/LC47gCC/Ffolova.png', 'Magic', 5)
 
-warrios.push(shillingford, clayton, frolova)
-
 shillingford.attacks.push(
     {name: 'Fire 🔥', id: 'button-fire'},
     {name: 'Fire 🔥', id: 'button-fire'},
@@ -52,7 +52,6 @@ shillingford.attacks.push(
     {name: 'Water 💧', id: 'button-water'},
     {name: 'Magic 🪄', id: 'button-magic'}
 )
-
 clayton.attacks.push(
     {name: 'Water 💧', id: 'button-water'},
     {name: 'Water 💧', id: 'button-water'},
@@ -67,15 +66,27 @@ frolova.attacks.push(
     {name: 'Magic 🪄', id: 'button-magic'},
     {name: 'Magic 🪄', id: 'button-magic'}
 )
-
-
-
-
+warriors.push(shillingford, clayton, frolova)
 
 function startGame(){
     sectionAttck.style = "display: none"
     sectionLives.style = "display: none"
     sectionRestart.style = "display: none"
+    warriors.forEach((warrior) => {
+        warriorsHTMLConstruction = `
+            <input type="radio" name="warrior" id=${warrior.name}>
+            <label class="warrior-card" for=${warrior.name}>
+                <p class="warrior-name-text">${warrior.name}</p>
+                <img src=${warrior.imagen} alt=${warrior.name} border="0">
+                <p class="power-text">${warrior.power}</p>
+            </label>
+        `
+        cardsContainer.innerHTML += warriorsHTMLConstruction
+        shillingfordInput = document.getElementById('Shillingford')
+        claytonInput = document.getElementById('Clayton')
+        frolovaInput = document.getElementById('Frolova')
+    })
+
     buttonWarriorPlayer.addEventListener('click', selectWarriorPlayer)
     buttonAttackFire.addEventListener('click', playerAttackFire)
     buttonAttackWater.addEventListener('click', playerAttackWater)
@@ -84,16 +95,15 @@ function startGame(){
 }
 function selectWarriorPlayer(){
     if (shillingfordInput.checked){
-        spanWarriorPlayerName.innerHTML = "Shillingford"
+        spanWarriorPlayerName.innerHTML = shillingfordInput.id
     } else if (claytonInput.checked){
-        spanWarriorPlayerName.innerHTML = "Clayton"
+        spanWarriorPlayerName.innerHTML = claytonInput.id
     } else if (frolovaInput.checked){
-        spanWarriorPlayerName.innerHTML = "Frolova"
+        spanWarriorPlayerName.innerHTML = frolovaInput.id
     } else {
         alert("Select one warrior")
     }
     selectWarriorEnemy()
-
     sectionWarrior.style = "display: none"
     sectionAttck.style = "display: flex"
     sectionLives.style = "display: grid"
@@ -103,14 +113,8 @@ function random(min,max){
     
 }
 function selectWarriorEnemy(){
-    let ramdonEnemy = random(1,3)
-    if (ramdonEnemy == 1){
-        spanWarriorEnemyName.innerHTML = "Shillingford"
-    } else if (ramdonEnemy == 2){
-        spanWarriorEnemyName.innerHTML = "Clayton"
-    } else {
-        spanWarriorEnemyName.innerHTML = "Frolova"
-    }
+    let ramdonEnemy = random(0, warriors.length - 1)
+    spanWarriorEnemyName.innerHTML = warriors[ramdonEnemy].name
 }
 function playerAttackFire(){
     playerAttack = "Fire"
