@@ -102,6 +102,7 @@ input:checked + label {
     flex-direction: column;
     align-content: center;
     align-items: center;
+    text-align: center;
 }
 #button-restart{
     border-color: transparent;
@@ -122,6 +123,9 @@ input:checked + label {
 .counter-attacks{
     margin-right: 10px;
     font-size: 18px;
+}
+.message-result {
+    font-size: 24px;
 }
 @media (max-width: 860px ) {
     .cards, .buttons-attack{
