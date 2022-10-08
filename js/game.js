@@ -1,5 +1,5 @@
 const sectionAttck = document.getElementById('select-attack')
-const sectionLives = document.getElementById('attacks-lives-secction')
+const sectionVictories = document.getElementById('attacks-victories-secction')
 const sectionRestart = document.getElementById('restart')
 const buttonWarriorPlayer = document.getElementById('button-warrior')
 const buttonRestart = document.getElementById('button-restart')
@@ -10,8 +10,8 @@ const sectionMessagesResult = document.getElementById('message-result')
 const sectionMessagesPlayerAttack = document.getElementById('message-player-attack')
 const sectionMessagesEnemyAttack = document.getElementById('message-enemy-attack')
 const sectionMessages = document.getElementById('message-result')
-const spanPlayerLives = document.getElementById('player-lives')
-const spanEnemyLives = document.getElementById('enemy-lives')
+const spanPlayerVictories = document.getElementById('player-victories')
+const spanEnemyVictories = document.getElementById('enemy-victories')
 const cardsContainer = document.getElementById('cards-container')
 const attacksContainer = document.getElementById('attacks-container')
 
@@ -29,25 +29,28 @@ let buttonAttackFire
 let buttonAttackWater
 let buttonAttackMagic
 let getAllAttackButtons = []
-let playerLives = 3
-let enemyLives = 3
+let playerVictories = 3
+let VenemyVictories = 3
 let playerAttackResultEmoji
 let enemyAttackResultEmoji
+let counterPayerWins = 0
+let counterEnemyWins = 0
+let tiedGames = 0
 let counterAttacks = 0
+let spanTieGames = []
 
 class Warriors {
-    constructor(name, imagen, power, lives) {
+    constructor(name, imagen, power) {
         this.name = name
         this.imagen = imagen
         this.power = power
-        this.lives = lives
         this.attacks = []
     }
 }
 
-let shillingford = new Warriors('Shillingford', 'https://i.ibb.co/NrW5VXd/shillingford.png', 'Fire', 5)
-let clayton = new Warriors('Clayton', 'https://i.ibb.co/GsZJs22/clayton.png', 'Water', 5)
-let frolova = new Warriors('Frolova', 'https://i.ibb.co/LC47gCC/Ffolova.png', 'Magic', 5)
+let shillingford = new Warriors('Shillingford', 'https://i.ibb.co/NrW5VXd/shillingford.png', 'Fire')
+let clayton = new Warriors('Clayton', 'https://i.ibb.co/GsZJs22/clayton.png', 'Water')
+let frolova = new Warriors('Frolova', 'https://i.ibb.co/LC47gCC/Ffolova.png', 'Magic')
 
 warriors.push(shillingford, clayton, frolova)
 
@@ -74,7 +77,7 @@ frolova.attacks.push(
 )
 function startGame(){
     sectionAttck.style = "display: none"
-    sectionLives.style = "display: none"
+    sectionVictories.style = "display: none"
     sectionRestart.style = "display: none"
     warriors.forEach((warrior) => {
         warriorsHTMLConstruction = `
@@ -90,7 +93,6 @@ function startGame(){
         claytonInput = document.getElementById('Clayton')
         frolovaInput = document.getElementById('Frolova')
     })
-
     buttonWarriorPlayer.addEventListener('click', selectWarriorPlayer)
     buttonRestart.addEventListener('click', restartGame)
 }
@@ -112,7 +114,7 @@ function selectWarriorPlayer(){
     sequencePlayerAttack()
     sectionWarrior.style = "display: none"
     sectionAttck.style = "display: flex"
-    sectionLives.style = "display: grid"
+    sectionVictories.style = "display: grid"
 }
 function random(min,max){
     return Math.floor(Math.random() * (max - min + 1) + min)
@@ -123,7 +125,6 @@ function selectWarriorEnemy(){
     spanWarriorEnemyName.innerHTML = warriors[ramdonEnemy].name
     enemyAttacks = warriors[ramdonEnemy].attacks
 }
-
 function getPlayerWarriorAttacks(warriorPlayerSelected){
     warriorPlayerSelected.attacks.forEach((attack) =>{
         attacksHTMLConstruction = `
@@ -144,15 +145,12 @@ function sequencePlayerAttack() {
                 playerAttacks.push('Fire 🔥')
                 button.style = 'background-color: #112f58'
                 button.disabled = true
-                console.log(playerAttacks)
             } else if (e.target.textContent === 'Water 💧'){
                 playerAttacks.push('Water 💧')
-                console.log(playerAttacks)
                 button.style = 'background-color: #112f58'
                 button.disabled = true
             } else {
                 playerAttacks.push('Magic 🪄')
-                console.log(playerAttacks)
                 button.style = 'background-color: #112f58'
                 button.disabled = true
             }
@@ -170,64 +168,71 @@ function ramdomEnemyAttack(enemyAttacks) {
         enemyAttacks[i] = enemyAttacks[j];
         enemyAttacks[j] = temp;
     }
+    combat()
 }
-function addMessage(){
+function combat(){
+ 
+    let playerAttack
+    let enemyAttack
+    for (let i = 0; i < playerAttacks.length; i++) {
+       if(playerAttacks[i] == enemyAttacks[i].name ){
+            tiedGames++
+            resultCombat = "Tied game 🤝"
+            playerAttackResultEmoji = "🤝"
+            enemyAttackResultEmoji = "🤝"
+        }else if (playerAttacks[i] == "Fire 🔥" && enemyAttacks[i].name == "Magic 🪄"){
+            counterPayerWins++
+            resultCombat = "You Win 🎉"
+            playerAttackResultEmoji = "✅"
+            enemyAttackResultEmoji = "☠️"
+        }else if (playerAttacks[i] == "Water 💧" && enemyAttacks[i].name == "Fire 🔥"){
+            counterPayerWins++
+            resultCombat = "You Win 🎉"
+            playerAttackResultEmoji = "✅"
+            enemyAttackResultEmoji = "☠️"
+        }else if (playerAttacks[i] == "Magic 🪄" && enemyAttacks[i].name == "Water 💧"){
+            counterPayerWins++
+            resultCombat = "You Win 🎉"
+            playerAttackResultEmoji = "✅"
+            enemyAttackResultEmoji = "☠️"
+        }else {
+            counterEnemyWins++
+            resultCombat = "You lose 👾"
+            playerAttackResultEmoji = "☠️"
+            enemyAttackResultEmoji = "✅"
+        }
+        counterAttacks++
+        playerAttack = playerAttacks[i]
+        enemyAttack = enemyAttacks[i].name
+        addMessage(playerAttack, enemyAttack, counterAttacks, playerAttackResultEmoji )
+    }
+    spanPlayerVictories.innerHTML = counterPayerWins
+    spanEnemyVictories.innerHTML = counterEnemyWins
+    spanTieGames = document.querySelectorAll('.game-ties')
+    spanTieGames.forEach((span) =>{
+        span.innerHTML = tiedGames
+    })
+    winsChecker()
+}
+function addMessage(playerAttack, enemyAttack, counterAttacks, playerAttackResultEmoji){
     let textMessagePlayerAttack = document.createElement('p')
     let textMessageEnemyAttack = document.createElement('p')
 
-    sectionMessagesResult.innerHTML = resultCombat
     textMessagePlayerAttack.innerHTML = "<span class=counter-attacks>" + counterAttacks + ".</span>" + playerAttack + " " + playerAttackResultEmoji
     textMessageEnemyAttack.innerHTML = "<span class=counter-attacks>" + counterAttacks + ".</span>" +  enemyAttack + " " + enemyAttackResultEmoji
-
     sectionMessagesPlayerAttack.appendChild(textMessagePlayerAttack)
     sectionMessagesEnemyAttack.appendChild(textMessageEnemyAttack)
 }
 function addMessageEndGame(finalMessage){
     sectionMessages.innerHTML = "<span class=message-result>" +  finalMessage + "</span>"
-    buttonAttackFire.disabled = true
-    buttonAttackWater.disabled = true
-    buttonAttackMagic.disabled = true
     sectionRestart.style = "display: block"
 }
-function combat(){
-    if (playerAttack == enemyAttack) {
-        resultCombat = "Tied game 🤝"
-        playerAttackResultEmoji = "🤝"
-        enemyAttackResultEmoji = "🤝"
-
-    } else if (playerAttack == "Fire" && enemyAttack == "Magic") {
-        resultCombat = "You Win 🎉"
-        playerAttackResultEmoji = "✅"
-        enemyAttackResultEmoji = "☠️"
-        enemyLives -= 1
-        spanEnemyLives.innerHTML = enemyLives
-    } else if (playerAttack == "Water" && enemyAttack == "Fire") {
-        resultCombat = "You Win 🎉"
-        playerAttackResultEmoji = "✅"
-        enemyAttackResultEmoji = "☠️"
-        enemyLives -= 1
-        spanEnemyLives.innerHTML = enemyLives
-    } else if (playerAttack == "Magic" && enemyAttack == "Water") {
-        resultCombat = "You Win 🎉"
-        playerAttackResultEmoji = "✅"
-        enemyAttackResultEmoji = "☠️"
-        enemyLives -= 1
-        spanEnemyLives.innerHTML = enemyLives
-    } else {
-        resultCombat = "You lose 👾"
-        playerAttackResultEmoji = "☠️"
-        enemyAttackResultEmoji = "✅"
-        playerLives -= 1
-        spanPlayerLives.innerHTML = playerLives
-    }
-    counterAttacks++
-    addMessage()
-    livesChecker()
-}
-function livesChecker() {
-    if (enemyLives == 0){
+function winsChecker() {
+    if (tiedGames === playerAttacks.length || counterPayerWins === counterEnemyWins){
+        addMessageEndGame("Tied game, boooring!!! 😕")
+    } else if (counterPayerWins > counterEnemyWins){
         addMessageEndGame("Flawless Victory!")
-    } else if (playerLives == 0){
+    } else {
         addMessageEndGame("You lose, Pathetic Fool!")
     }
 }
