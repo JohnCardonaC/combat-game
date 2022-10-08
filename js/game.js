@@ -21,7 +21,7 @@ let shillingfordInput
 let claytonInput
 let frolovaInput
 let playerAttacks = []
-let enemyAttack
+let enemyAttacks = []
 let resultCombat 
 let warriorPlayerSelected
 let attacksHTMLConstruction
@@ -109,7 +109,7 @@ function selectWarriorPlayer(){
     }
     getPlayerWarriorAttacks(warriorPlayerSelected)
     selectWarriorEnemy()
-    sequenceAttack()
+    sequencePlayerAttack()
     sectionWarrior.style = "display: none"
     sectionAttck.style = "display: flex"
     sectionLives.style = "display: grid"
@@ -121,7 +121,9 @@ function random(min,max){
 function selectWarriorEnemy(){
     let ramdonEnemy = random(0, warriors.length - 1)
     spanWarriorEnemyName.innerHTML = warriors[ramdonEnemy].name
+    enemyAttacks = warriors[ramdonEnemy].attacks
 }
+
 function getPlayerWarriorAttacks(warriorPlayerSelected){
     warriorPlayerSelected.attacks.forEach((attack) =>{
         attacksHTMLConstruction = `
@@ -133,14 +135,11 @@ function getPlayerWarriorAttacks(warriorPlayerSelected){
     buttonAttackWater = document.getElementById('button-water')
     buttonAttackMagic = document.getElementById('button-magic')
     getAllAttackButtons = document.querySelectorAll('.attack-buttons')
-
-    buttonAttackFire.addEventListener('click', playerAttackFire)
-    buttonAttackWater.addEventListener('click', playerAttackWater)
-    buttonAttackMagic.addEventListener('click', playerAttackMagic)
 }
-function sequenceAttack() {
+function sequencePlayerAttack() {
+    let count = 0
     getAllAttackButtons.forEach((button) => {
-        button.addEventListener('click', (e) =>{
+        button.addEventListener('click', (e) =>{  
             if (e.target.textContent === 'Fire 🔥'){
                 playerAttacks.push('Fire 🔥')
                 button.style = 'background-color: #112f58'
@@ -157,36 +156,20 @@ function sequenceAttack() {
                 button.style = 'background-color: #112f58'
                 button.disabled = true
             }
+            count++
+            if(count === getAllAttackButtons.length){
+                ramdomEnemyAttack(enemyAttacks)
+            }
         })
     })
 }
-
-function playerAttackFire(){
-    playerAttack = "Fire"
-    ramdomEnemyAttack()
-
-}
-function playerAttackWater(){
-    playerAttack = "Water"
-    ramdomEnemyAttack()
-
-}
-function playerAttackMagic(){
-    playerAttack = "Magic"
-    ramdomEnemyAttack()
-
-}
-function ramdomEnemyAttack(){
-    enemyAttack = random(1,3)
-    if (enemyAttack == 1){
-        enemyAttack = "Fire"
-    }else if (enemyAttack == 2) {
-        enemyAttack = "Water"
-    } else {
-        enemyAttack = "Magic"
+function ramdomEnemyAttack(enemyAttacks) {
+    for (var i = enemyAttacks.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = enemyAttacks[i];
+        enemyAttacks[i] = enemyAttacks[j];
+        enemyAttacks[j] = temp;
     }
-    combat()
-    
 }
 function addMessage(){
     let textMessagePlayerAttack = document.createElement('p')
