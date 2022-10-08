@@ -2,9 +2,6 @@ const sectionAttck = document.getElementById('select-attack')
 const sectionLives = document.getElementById('attacks-lives-secction')
 const sectionRestart = document.getElementById('restart')
 const buttonWarriorPlayer = document.getElementById('button-warrior')
-const buttonAttackFire = document.getElementById('button-fire')
-const buttonAttackWater = document.getElementById('button-water')
-const buttonAttackMagic = document.getElementById('button-magic')
 const buttonRestart = document.getElementById('button-restart')
 const spanWarriorPlayerName = document.getElementById('warrior-player-name')
 const sectionWarrior = document.getElementById('slect-warrior')
@@ -16,15 +13,22 @@ const sectionMessages = document.getElementById('message-result')
 const spanPlayerLives = document.getElementById('player-lives')
 const spanEnemyLives = document.getElementById('enemy-lives')
 const cardsContainer = document.getElementById('cards-container')
+const attacksContainer = document.getElementById('attacks-container')
 
 let warriors = []
 let warriorsHTMLConstruction 
 let shillingfordInput
 let claytonInput
 let frolovaInput
-let playerAttack
+let playerAttacks = []
 let enemyAttack
 let resultCombat 
+let warriorPlayerSelected
+let attacksHTMLConstruction
+let buttonAttackFire
+let buttonAttackWater
+let buttonAttackMagic
+let getAllAttackButtons = []
 let playerLives = 3
 let enemyLives = 3
 let playerAttackResultEmoji
@@ -45,6 +49,8 @@ let shillingford = new Warriors('Shillingford', 'https://i.ibb.co/NrW5VXd/shilli
 let clayton = new Warriors('Clayton', 'https://i.ibb.co/GsZJs22/clayton.png', 'Water', 5)
 let frolova = new Warriors('Frolova', 'https://i.ibb.co/LC47gCC/Ffolova.png', 'Magic', 5)
 
+warriors.push(shillingford, clayton, frolova)
+
 shillingford.attacks.push(
     {name: 'Fire 🔥', id: 'button-fire'},
     {name: 'Fire 🔥', id: 'button-fire'},
@@ -60,14 +66,12 @@ clayton.attacks.push(
     {name: 'Magic 🪄', id: 'button-magic'}
 )
 frolova.attacks.push(
+    {name: 'Magic 🪄', id: 'button-magic'},
+    {name: 'Magic 🪄', id: 'button-magic'},
+    {name: 'Magic 🪄', id: 'button-magic'},
     {name: 'Fire 🔥', id: 'button-fire'},
-    {name: 'Water 💧', id: 'button-water'},
-    {name: 'Magic 🪄', id: 'button-magic'},
-    {name: 'Magic 🪄', id: 'button-magic'},
-    {name: 'Magic 🪄', id: 'button-magic'}
+    {name: 'Water 💧', id: 'button-water'}
 )
-warriors.push(shillingford, clayton, frolova)
-
 function startGame(){
     sectionAttck.style = "display: none"
     sectionLives.style = "display: none"
@@ -88,22 +92,24 @@ function startGame(){
     })
 
     buttonWarriorPlayer.addEventListener('click', selectWarriorPlayer)
-    buttonAttackFire.addEventListener('click', playerAttackFire)
-    buttonAttackWater.addEventListener('click', playerAttackWater)
-    buttonAttackMagic.addEventListener('click', playerAttackMagic)
     buttonRestart.addEventListener('click', restartGame)
 }
 function selectWarriorPlayer(){
     if (shillingfordInput.checked){
         spanWarriorPlayerName.innerHTML = shillingfordInput.id
+        warriorPlayerSelected = shillingford
     } else if (claytonInput.checked){
         spanWarriorPlayerName.innerHTML = claytonInput.id
+        warriorPlayerSelected = clayton
     } else if (frolovaInput.checked){
         spanWarriorPlayerName.innerHTML = frolovaInput.id
+        warriorPlayerSelected = frolova
     } else {
         alert("Select one warrior")
     }
+    getPlayerWarriorAttacks(warriorPlayerSelected)
     selectWarriorEnemy()
+    sequenceAttack()
     sectionWarrior.style = "display: none"
     sectionAttck.style = "display: flex"
     sectionLives.style = "display: grid"
@@ -116,6 +122,45 @@ function selectWarriorEnemy(){
     let ramdonEnemy = random(0, warriors.length - 1)
     spanWarriorEnemyName.innerHTML = warriors[ramdonEnemy].name
 }
+function getPlayerWarriorAttacks(warriorPlayerSelected){
+    warriorPlayerSelected.attacks.forEach((attack) =>{
+        attacksHTMLConstruction = `
+            <button class="button-attack attack-buttons" id=${attack.id}>${attack.name}</button>
+        `
+        attacksContainer.innerHTML += attacksHTMLConstruction
+    }) 
+    buttonAttackFire = document.getElementById('button-fire')
+    buttonAttackWater = document.getElementById('button-water')
+    buttonAttackMagic = document.getElementById('button-magic')
+    getAllAttackButtons = document.querySelectorAll('.attack-buttons')
+
+    buttonAttackFire.addEventListener('click', playerAttackFire)
+    buttonAttackWater.addEventListener('click', playerAttackWater)
+    buttonAttackMagic.addEventListener('click', playerAttackMagic)
+}
+function sequenceAttack() {
+    getAllAttackButtons.forEach((button) => {
+        button.addEventListener('click', (e) =>{
+            if (e.target.textContent === 'Fire 🔥'){
+                playerAttacks.push('Fire 🔥')
+                button.style = 'background-color: #112f58'
+                button.disabled = true
+                console.log(playerAttacks)
+            } else if (e.target.textContent === 'Water 💧'){
+                playerAttacks.push('Water 💧')
+                console.log(playerAttacks)
+                button.style = 'background-color: #112f58'
+                button.disabled = true
+            } else {
+                playerAttacks.push('Magic 🪄')
+                console.log(playerAttacks)
+                button.style = 'background-color: #112f58'
+                button.disabled = true
+            }
+        })
+    })
+}
+
 function playerAttackFire(){
     playerAttack = "Fire"
     ramdomEnemyAttack()
